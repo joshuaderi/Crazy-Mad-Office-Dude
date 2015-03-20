@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 02fea54e663af824cb22974b2be4361e
+guid: e2a8430b950839b4fb5026af595e76b9
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -8,7 +8,6 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Desk
-    6400000: //RootNode
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -31,10 +30,10 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     weldVertices: 1

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7cf327699e641e942a8ea1df4b27bfc6
+guid: 1c588c7021e365549a0daed7a8626128
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -39,9 +39,9 @@ ModelImporter:
     optimizeMeshForGPU: 1
     weldVertices: 1
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15.000001
+    secondaryUVAreaDistortion: 15
     secondaryUVHardAngle: 88
-    secondaryUVPackMargin: 4
+    secondaryUVPackMargin: 10
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1

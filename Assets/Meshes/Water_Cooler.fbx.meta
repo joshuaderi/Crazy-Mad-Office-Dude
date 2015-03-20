@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a4d67e86e7511d241a287f2a25124f4b
+guid: 1a3b3d34a2aaad04195b50bbf7290153
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -8,7 +8,6 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: WaterCooler
-    6400000: //RootNode
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -31,10 +30,10 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     weldVertices: 1
