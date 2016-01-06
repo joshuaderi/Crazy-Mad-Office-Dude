@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class NotificationsManager : MonoBehaviour
@@ -22,7 +21,7 @@ public class NotificationsManager : MonoBehaviour
     //Function to post a notification to a listener
     public void PostNotification(Component sender, string notificationName)
     {
-        //If not key in dictionary exists, then exit
+        //If no key in dictionary exists, then exit
         if (!listeners.ContainsKey(notificationName)) return;
 
         //Else post notification to all matching listeners
@@ -31,4 +30,22 @@ public class NotificationsManager : MonoBehaviour
             listener.SendMessage(notificationName, sender, SendMessageOptions.DontRequireReceiver);
         }
     }
+
+    //Function to remove a listener for a notification
+    public void RemoveListener(Component listener, string notificationName)
+    {
+        //If no key in dictionary exists, then exit
+        if (!listeners.ContainsKey(notificationName)) return;
+
+        //Cycle through listeners and identify component, and then remove
+        for (int i = listeners[notificationName].Count - 1; i >= 0; i--)
+        {
+            //check instance ID
+            if (listeners[notificationName][i].GetInstanceID() == listener.GetInstanceID())
+            {
+                listeners[notificationName].RemoveAt(i); //Matched. Remove from list
+            }
+        }
+    }
+
 }
