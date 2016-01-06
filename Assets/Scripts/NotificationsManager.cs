@@ -5,7 +5,12 @@ public class NotificationsManager : MonoBehaviour
 {
 
     private Dictionary<string, List<Component>> listeners = new Dictionary<string, List<Component>>();
-    //Function to add a listener for an notification to the listeners list
+    
+    /// <summary>
+    /// Function to add a listener for an notification to the listeners list
+    /// </summary>
+    /// <param name="listener"></param>
+    /// <param name="notificationName"></param>
     public void AddListener(Component listener, string notificationName)
     {
         //Add listener to dictionary
@@ -18,7 +23,11 @@ public class NotificationsManager : MonoBehaviour
         listeners[notificationName].Add(listener);
     }
 
-    //Function to post a notification to a listener
+    /// <summary>
+    /// Function to post a notification to a listener
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="notificationName"></param>
     public void PostNotification(Component sender, string notificationName)
     {
         //If no key in dictionary exists, then exit
@@ -31,7 +40,11 @@ public class NotificationsManager : MonoBehaviour
         }
     }
 
-    //Function to remove a listener for a notification
+    /// <summary>
+    /// Function to remove a listener for a notification
+    /// </summary>
+    /// <param name="listener"></param>
+    /// <param name="notificationName"></param>
     public void RemoveListener(Component listener, string notificationName)
     {
         //If no key in dictionary exists, then exit
@@ -48,7 +61,9 @@ public class NotificationsManager : MonoBehaviour
         }
     }
 
-    //function to remove redundant listeners - deleted and removed listeners
+    /// <summary>
+    /// function to remove redundant listeners - deleted and removed listeners
+    /// </summary>
     public void RemoveRedundancies()
     {
         //Create new dictionary
@@ -70,5 +85,23 @@ public class NotificationsManager : MonoBehaviour
 
         //replace listeners object with new, optimized dictionary
         listeners = tmpListeners;
+    }
+    
+    /// <summary>
+    /// function to clear all listeners
+    /// </summary>
+    public void ClearListeners()
+    {
+        //Removes all listeners
+        listeners.Clear();
+    }
+
+    /// <summary>
+    /// Called when a new level is loaded; remove redundant entries from dictionary; in case left-over from previous scene
+    /// </summary>
+    void OnLevelWasLoaded()
+    {
+        //Clear redundancies
+        RemoveRedundancies();
     }
 }
