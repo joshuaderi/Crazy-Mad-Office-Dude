@@ -48,4 +48,27 @@ public class NotificationsManager : MonoBehaviour
         }
     }
 
+    //function to remove redundant listeners - deleted and removed listeners
+    public void RemoveRedundancies()
+    {
+        //Create new dictionary
+        var tmpListeners = new Dictionary<string, List<Component>>();
+
+        //Cycle through all dictionary entries
+        foreach (var eventListenersPair in listeners)
+        {
+            //Cycle through all listener objects in list, remove null objects
+            for (int i = eventListenersPair.Value.Count; i >=0; i--)
+            {
+                //if null, then remove item
+                if (eventListenersPair.Value[i] == null) eventListenersPair.Value.RemoveAt(i);
+            }
+
+            //if items remain in list for this notification, then add this to tmp dictionary 
+            if (eventListenersPair.Value.Count > 0) tmpListeners.Add(eventListenersPair.Key, eventListenersPair.Value); 
+        }
+
+        //replace listeners object with new, optimized dictionary
+        listeners = tmpListeners;
+    }
 }
