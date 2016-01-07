@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class PingPongMovement : MonoBehaviour
@@ -6,8 +7,11 @@ public class PingPongMovement : MonoBehaviour
 	//Direction to move
 	public Vector3 MoveDir = Vector3.zero;
 
-	//Speed to move - units per second
-	public float Speed = 0.0f;
+    /// <summary>
+    /// Speed to move - units per second;
+    /// should be positive
+    /// </summary>
+    public float Speed = 0.0f;
 
 	//Distance to travel in world units (before inverting direction and turning back)
 	public float TravelDistance = 0.0f;
@@ -18,7 +22,9 @@ public class PingPongMovement : MonoBehaviour
 	// Use this for initialization
 	IEnumerator Start () 
 	{
-		//Get cached transform
+	    if (Speed < 0) throw new InvalidOperationException("Speed should be positive");
+
+	    //Get cached transform
 		thisTransform = transform;
 
 		//Loop forever
@@ -38,25 +44,26 @@ public class PingPongMovement : MonoBehaviour
 		//Distance traveled so far
 		float distanceTravelled = 0;
 
+	    bool hasReachEndPoint = false;
+
 		//Move
-		while(true)
+		while(!hasReachEndPoint)
 		{
 			//Get new position based on speed and direction
 			Vector3 distToTravel = MoveDir * Speed * Time.deltaTime;
+            
+            //prevent from moving beyond the end point
+            if (distToTravel.magnitude + distanceTravelled >= TravelDistance)
+		    {
+		        hasReachEndPoint = true;
+		        distToTravel = (TravelDistance - distanceTravelled) * MoveDir;
+		    }
 
 			//Update position
 			thisTransform.position += distToTravel;
 
 			//Update distance traveled so far
 			distanceTravelled += distToTravel.magnitude;
-
-            //stop movement, when reach the end point
-		    if (distanceTravelled > TravelDistance)
-		    {
-                float superfluousDist = distanceTravelled - TravelDistance;
-                thisTransform.position -= MoveDir * superfluousDist;
-                yield break;
-		    }
 
 			//Wait until next update
 			yield return null;
