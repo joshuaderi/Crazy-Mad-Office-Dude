@@ -9316,6 +9316,7 @@ GameObject:
   - 4: {fileID: 1983331655}
   - 212: {fileID: 1983331654}
   - 114: {fileID: 1983331656}
+  - 114: {fileID: 1983331657}
   m_Layer: 0
   m_Name: spr_dollar
   m_TagString: Untagged
@@ -9352,7 +9353,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1983331653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.26199996, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 3.68700004}
   m_LocalScale: {x: .300000012, y: .300000012, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9368,6 +9369,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841952fa34352eb4c9c46000771009a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1983331657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1983331653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f05d334f65bf04d8f698ea58921691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveDir: {x: 0, y: 1, z: 0}
+  Speed: .300000012
+  TravelDistance: .5
 --- !u!1 &1991515945
 GameObject:
   m_ObjectHideFlags: 0

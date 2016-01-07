@@ -4,8 +4,8 @@ using System.Collections;
 
 public class PingPongMovement : MonoBehaviour
 {
-	//Direction to move
-	public Vector3 MoveDir = Vector3.zero;
+    //Direction to move
+    public Vector3 MoveDir = Vector3.zero;
 
     /// <summary>
     /// Speed to move - units per second;
@@ -13,60 +13,49 @@ public class PingPongMovement : MonoBehaviour
     /// </summary>
     public float Speed = 0.0f;
 
-	//Distance to travel in world units (before inverting direction and turning back)
-	public float TravelDistance = 0.0f;
-	
-	//Cached Transform
-	private Transform thisTransform;
-	
-	// Use this for initialization
-	IEnumerator Start () 
-	{
-	    if (Speed < 0) throw new InvalidOperationException("Speed should be positive");
+    //Distance to travel in world units (before inverting direction and turning back)
+    public float TravelDistance = 0.0f;
 
-	    //Get cached transform
-		thisTransform = transform;
+    //Cached Transform
+    private Transform thisTransform;
 
-		//Loop forever
-		while(true)
-		{
-			//Invert direction
-			MoveDir = MoveDir * -1;
+    private Vector3 startPos;
+    private Vector3 targetPos;
 
-			//Start movement
-			yield return StartCoroutine(Travel());
-		}
-	}
-	
-	//Travel full distance in direction, from current position
-	IEnumerator Travel()
-	{
-		//Distance traveled so far
-		float distanceTravelled = 0;
+    // Use this for initialization
+    void Start()
+    {
+        if (Speed < 0) throw new InvalidOperationException("Speed should be positive");
 
-	    bool hasReachEndPoint = false;
+        //Get cached transform
+        thisTransform = transform;
 
-		//Move
-		while(!hasReachEndPoint)
-		{
-			//Get new position based on speed and direction
-			Vector3 distToTravel = MoveDir * Speed * Time.deltaTime;
-            
-            //prevent from moving beyond the end point
-            if (distToTravel.magnitude + distanceTravelled >= TravelDistance)
-		    {
-		        hasReachEndPoint = true;
-		        distToTravel = (TravelDistance - distanceTravelled) * MoveDir;
-		    }
+        //calc end points
+        startPos = thisTransform.position;
+        targetPos = startPos + MoveDir * TravelDistance;
 
-			//Update position
-			thisTransform.position += distToTravel;
+        //Start movement
+        StartCoroutine(MoveBackAndForth());
+    }
 
-			//Update distance traveled so far
-			distanceTravelled += distToTravel.magnitude;
+    //Travel full distance in direction, from current position
+    IEnumerator MoveBackAndForth()
+    {
+        while (true)
+        {
+            float step = Speed * Time.deltaTime;
+            thisTransform.position = Vector3.MoveTowards(thisTransform.position, targetPos, step);
 
-			//Wait until next update
-			yield return null;
-		}
-	}
+            if (thisTransform.position == targetPos)
+            {
+                //swap positions
+                var temp = targetPos;
+                targetPos = startPos;
+                startPos = temp;
+            }
+
+            //Wait until next update
+            yield return null;
+        }
+    }
 }
