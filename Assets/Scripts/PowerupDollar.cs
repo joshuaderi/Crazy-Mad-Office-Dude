@@ -14,13 +14,13 @@ public class PowerupDollar : MonoBehaviour
     void Start()
     {
         //Find sound object in scene
-        GameObject soundsObject = GameObject.FindGameObjectWithTag("sounds");
+        GameObject soundsObj = GameObject.FindGameObjectWithTag("sounds");
 
         //If no sound object, then exit
-        if (soundsObject == null) return;
+        if (soundsObj == null) return;
 
         //Get audio source component for sfx
-        sfx = soundsObject.GetComponent<AudioSource>();
+        sfx = soundsObj.GetComponent<AudioSource>();
     }
 
     //Event triggered when colliding with player
@@ -36,10 +36,10 @@ public class PowerupDollar : MonoBehaviour
         gameObject.SetActive(false);
 
         //Get PlayerController object and update cash
-        //PlayerController PC = other.gameObject.GetComponent<PlayerController>();
+        //TODO:PlayerController PC = other.gameObject.GetComponent<PlayerController>();
 
         //If there is a PC attached to colliding object, then update cash
-        //if(PC) PC.Cash += CashAmount;
+        //TODO:if(PC) PC.Cash += CashAmount;
 
         //Post power up collected notification, so other objects can handle this event if required
         GameManager.Notifications.PostNotification(this, "PowerupCollected");
