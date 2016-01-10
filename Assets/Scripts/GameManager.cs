@@ -9,6 +9,24 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //C# property to retrieve and set input allowed status
+    public bool InputAllowed
+    {
+        get { return bInputAllowed; }
+
+        set
+        {
+            //Set Input
+            bInputAllowed = value;
+
+            //Post notification about input status changed
+            Notifications.PostNotification(this, "InputChanged");
+        }
+    }
+
+    //Can game accept user input?
+    private bool bInputAllowed = true;
+
     //C# property to retrieve currently active instance of object, if any
     public static GameManager Instance
     {

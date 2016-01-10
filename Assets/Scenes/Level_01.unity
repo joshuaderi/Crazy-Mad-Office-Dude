@@ -3624,6 +3624,7 @@ GameObject:
   - 114: {fileID: 731084396}
   - 114: {fileID: 731084395}
   - 114: {fileID: 731084394}
+  - 114: {fileID: 731084398}
   m_Layer: 0
   m_Name: DesktopController
   m_TagString: player
@@ -3747,6 +3748,20 @@ CharacterController:
   m_SkinWidth: .0500000007
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &731084398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731084392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a062e83bf05503d479328b874362db31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Strength: .150000006
+  BobAmount: 10
+  HeadY: 1.20000005
 --- !u!1 &743845650
 GameObject:
   m_ObjectHideFlags: 0
@@ -8662,6 +8677,7 @@ GameObject:
   - 4: {fileID: 1676051258}
   - 143: {fileID: 1676051260}
   - 114: {fileID: 1676051259}
+  - 114: {fileID: 1676051261}
   m_Layer: 0
   m_Name: Player
   m_TagString: player
@@ -8722,6 +8738,20 @@ CharacterController:
   m_SkinWidth: .0500000007
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1676051261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676051257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a062e83bf05503d479328b874362db31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Strength: .150000006
+  BobAmount: 10
+  HeadY: 1.20000005
 --- !u!1001 &1682458847
 Prefab:
   m_ObjectHideFlags: 0
