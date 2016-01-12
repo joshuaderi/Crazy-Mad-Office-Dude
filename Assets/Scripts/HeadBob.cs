@@ -30,17 +30,21 @@ public class HeadBob : MonoBehaviour
         //If input is not allowed, then exit
         if (!GameManager.Instance.InputAllowed) return;
 
+        float yPos = HeadY;
         float totalMovement = GetTotalMovement();
-
-        UpdateElapsedTime(totalMovement);
+        if (totalMovement > 0.0f) yPos += GetOffsetY(totalMovement);
+        else elapsedTime = 0.0f;
         
-        //Update position
-        float yPos = HeadY + BobOffset() * totalMovement;
-      
         thisTransform.position = new Vector3(
             thisTransform.position.x,
             yPos,
             thisTransform.position.z);
+    }
+
+    private float GetOffsetY(float totalMovement)
+    {
+        elapsedTime += Time.deltaTime;
+        return Mathf.Sin(elapsedTime * BobAmount) * Strength * totalMovement;
     }
 
     private static float GetTotalMovement()
@@ -49,16 +53,5 @@ public class HeadBob : MonoBehaviour
         float vertical = Mathf.Abs(Input.GetAxis("Vertical"));
 
         return Mathf.Clamp(horizontal + vertical, 0.0f, 1.0f);
-    }
-
-    private void UpdateElapsedTime(float totalMovement)
-    {
-        if (totalMovement > 0.0f) elapsedTime += Time.deltaTime;
-        else elapsedTime = 0.0f;
-    }
-
-    private float BobOffset()
-    {
-        return Mathf.Sin(elapsedTime * BobAmount) * Strength;
     }
 }
