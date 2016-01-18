@@ -5,11 +5,7 @@ using System.Collections;
 
 public class SpriteAnimator : MonoBehaviour
 {
-    //Playback types - run once or loop forever
-    public enum AnimatorPlaybackType { Playonce = 0, Playloop = 1 };
-
-    //Playback type for this animation
-    public AnimatorPlaybackType PlaybackType = AnimatorPlaybackType.Playonce;
+    [SerializeField] private bool playOnce = true;
 
     //Frames per second to play for this animation
     public int FPS = 5;
@@ -28,9 +24,12 @@ public class SpriteAnimator : MonoBehaviour
 
     //Boolean indicating whether animation is currently playing
     bool isPlaying = false;
+    private float delayTime;
 
     void Start()
     {
+        delayTime = 1.0f / FPS;
+
         //Should we auto-play at start up?
         if (AutoPlay) StartCoroutine(PlaySpriteAnimation(AnimationId));
     }
@@ -38,28 +37,35 @@ public class SpriteAnimator : MonoBehaviour
     //Function to run animation
     public IEnumerator PlaySpriteAnimation(int animId = 0)
     {
-        //Check if this animation should be started
-        if (animId != AnimationId) yield break;
+        if (!ShouldPlay(animId)) yield break;
 
-        //Should hide all sprite renderers?
-        if (HideSpritesOnStart) foreach (SpriteRenderer spriteRenderer in SpriteRenderers) spriteRenderer.enabled = false;
+        Init();
 
-        //Set is playing
-        isPlaying = true;
+        if (playOnce) yield return StartCoroutine(LoopThroughSprites());
+        else while (true) yield return StartCoroutine(LoopThroughSprites());
 
-        //Calculate delay time
-        float delayTime = 1.0f / FPS;
-
-        bool playOnce = AnimatorPlaybackType.Playonce == PlaybackType;
-
-        if (playOnce) yield return StartCoroutine(PlayAnimation(delayTime));
-        else while (true) yield return StartCoroutine(PlayAnimation(delayTime));
-
-        //Stop animation
         StopSpriteAnimation(AnimationId);
     }
 
-    private IEnumerator PlayAnimation(float delayTime)
+    private void Init( )
+    {
+        if (HideSpritesOnStart) HideAllSprites();
+
+        //Set is playing
+        isPlaying = true;
+    }
+
+    private bool ShouldPlay(int animId)
+    {
+        return animId == AnimationId;
+    }
+
+    private void HideAllSprites()
+    {
+        foreach (SpriteRenderer spriteRenderer in SpriteRenderers) spriteRenderer.enabled = false;
+    }
+
+    private IEnumerator LoopThroughSprites()
     {
         foreach (SpriteRenderer spriteRenderer in SpriteRenderers)
         {
