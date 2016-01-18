@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SpriteShowAnimator : MonoBehaviour
+public class SpriteAnimator : MonoBehaviour
 {
     //Playback types - run once or loop forever
     public enum AnimatorPlaybackType { Playonce = 0, Playloop = 1 };
