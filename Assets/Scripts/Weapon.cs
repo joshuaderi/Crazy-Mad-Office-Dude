@@ -1,14 +1,12 @@
-﻿//------------------------------------------------
-using UnityEngine;
-using System.Collections;
-//------------------------------------------------
+﻿using UnityEngine;
+
 public class Weapon : MonoBehaviour
 {
 	//Custom enum for weapon types
-	public enum WEAPON_TYPE {Punch=0, Gun=1};
+	public enum WeaponType {Punch=0, Gun=1};
 
 	//Weapon type
-	public WEAPON_TYPE Type = WEAPON_TYPE.Punch;
+	public WeaponType Type = WeaponType.Punch;
 
 	//Damage this weapon causes
 	public float Damage = 0.0f;
@@ -34,5 +32,30 @@ public class Weapon : MonoBehaviour
 
 	//Next weapon in cycle
 	public Weapon NextWeapon = null;
+    public SpriteRenderer DefaultSprite = null;
+
+    protected bool CanEquipWeapon(WeaponType weaponType)
+    {
+        return (weaponType == Type) && Collected && (Ammo != 0) && !IsEquipped;
+    }
+
+    //Equip weapon
+    public bool Equip(WeaponType weaponType)
+    {
+        if (!CanEquipWeapon(weaponType)) return false;
+
+        IsEquipped = true;
+
+        //Show default sprite
+        DefaultSprite.enabled = true;
+
+        //Activate Can Fire
+        CanFire = true;
+
+        //Send weapon change event
+        GameManager.Notifications.PostNotification(this, "WeaponChange");
+
+        //Weapon was equipped
+        return true;
+    }
 }
-//------------------------------------------------
