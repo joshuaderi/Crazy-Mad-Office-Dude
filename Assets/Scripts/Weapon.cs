@@ -33,7 +33,7 @@ public abstract class Weapon : MonoBehaviour
 
     //Next weapon in cycle
     public Weapon NextWeapon = null;
-    public SpriteRenderer DefaultSprite = null;
+    private SpriteRenderer defaultSprite;
 
     //Audio Source for sound playback
     protected AudioSource sfx;
@@ -72,7 +72,7 @@ public abstract class Weapon : MonoBehaviour
         IsEquipped = true;
 
         //Show default sprite
-        DefaultSprite.enabled = true;
+        defaultSprite.enabled = true;
 
         //Activate Can Fire
         CanFire = true;
@@ -87,7 +87,7 @@ public abstract class Weapon : MonoBehaviour
     protected void Init()
     {
         SpriteAnimator = GetComponent<SpriteAnimator>();
-
+        defaultSprite = SpriteAnimator.SpriteRenderers[0];
         //Find sound object in scene
         GameObject soundsObject = GameObject.FindGameObjectWithTag("sounds");
 
@@ -108,7 +108,7 @@ public abstract class Weapon : MonoBehaviour
         if (!IsEquipped) return;
 
         //Show default sprite
-        DefaultSprite.enabled = true;
+        defaultSprite.enabled = true;
     }
     
     //Weapon change event - called when player changes weapon
