@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon_Gun : Weapon
+public class WeaponGun : Weapon
 {
     //Default Sprite to show for weapon when active and not attacking
 

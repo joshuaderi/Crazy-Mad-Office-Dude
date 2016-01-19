@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon_Punch : Weapon
+public class WeaponPunch : Weapon
 {
     //Sound to play on attack
     public AudioClip WeaponAudio = null;

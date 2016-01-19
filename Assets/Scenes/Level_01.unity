@@ -1403,7 +1403,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 233690650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf3b90f8fb5d20644bb83f33d30737a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 223879b87f60484418b1f66aa17cae88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
@@ -2811,7 +2811,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 379642596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7003f7b730fe40f459a2aa42eb213f5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f00d4542fb58db49aafe16d50b5c4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
@@ -4649,7 +4649,7 @@ MonoBehaviour:
   CashTotal: 1400
   RespawnTime: 2
   health: 100
-  DefaultWeapon: {fileID: 379642599}
+  DefaultWeapon: {fileID: 0}
   ActiveWeapon: {fileID: 0}
 --- !u!1 &743845650
 GameObject:
