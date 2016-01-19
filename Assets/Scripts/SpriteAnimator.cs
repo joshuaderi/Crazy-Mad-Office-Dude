@@ -9,10 +9,7 @@ public class SpriteAnimator : MonoBehaviour
 
     //Frames per second to play for this animation
     public int FPS = 5;
-
-    //Custom ID for animation - used with function PlayObjectAnimation
-    public int AnimationId = 0;
-
+    
     //Frames of animation
     public SpriteRenderer[] SpriteRenderers = null;
 
@@ -31,20 +28,18 @@ public class SpriteAnimator : MonoBehaviour
         delayTime = 1.0f / FPS;
 
         //Should we auto-play at start up?
-        if (AutoPlay) StartCoroutine(PlaySpriteAnimation(AnimationId));
+        if (AutoPlay) StartCoroutine(PlaySpriteAnimation());
     }
     
     //Function to run animation
-    public IEnumerator PlaySpriteAnimation(int animId = 0)
+    public IEnumerator PlaySpriteAnimation()
     {
-        if (!ShouldPlay(animId)) yield break;
-
         Init();
 
         if (playOnce) yield return StartCoroutine(LoopThroughSprites());
         else while (true) yield return StartCoroutine(LoopThroughSprites());
 
-        StopSpriteAnimation(AnimationId);
+        StopSpriteAnimation();
     }
 
     private void Init( )
@@ -54,13 +49,8 @@ public class SpriteAnimator : MonoBehaviour
         //Set is playing
         isPlaying = true;
     }
-
-    private bool ShouldPlay(int animId)
-    {
-        return animId == AnimationId;
-    }
-
-    private void HideAllSprites()
+    
+    public void HideAllSprites()
     {
         foreach (SpriteRenderer spriteRenderer in SpriteRenderers) spriteRenderer.enabled = false;
     }
@@ -76,10 +66,10 @@ public class SpriteAnimator : MonoBehaviour
     }
 
     //Function to stop animation
-    public void StopSpriteAnimation(int animId = 0)
+    public void StopSpriteAnimation()
     {
         //Check if this animation can and should be stopped
-        if ((animId != AnimationId) || !isPlaying) return;
+        if (!isPlaying) return;
 
         //Stop all coroutines (animation will no longer play)
         StopAllCoroutines();
@@ -88,6 +78,6 @@ public class SpriteAnimator : MonoBehaviour
         isPlaying = false;
 
         //Send Sprite Animation stopped event to gameobject
-        gameObject.SendMessage("SpriteAnimationStopped", animId, SendMessageOptions.DontRequireReceiver);
+        gameObject.SendMessage("SpriteAnimationStopped", SendMessageOptions.DontRequireReceiver);
     }
 }

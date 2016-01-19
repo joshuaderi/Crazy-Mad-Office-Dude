@@ -1389,7 +1389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnce: 1
   FPS: 5
-  AnimationId: 1
   SpriteRenderers:
   - {fileID: 1118216561}
   - {fileID: 2140626037}
@@ -2797,7 +2796,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnce: 1
   FPS: 5
-  AnimationId: 0
   SpriteRenderers:
   - {fileID: 471284221}
   - {fileID: 2005165360}
