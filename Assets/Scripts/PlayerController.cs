@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,13 +33,28 @@ public class PlayerController : MonoBehaviour
 	private bool showDamage = false;
 
 	//Damage texture interval (amount of time in seconds to show texture)
-	private float DamageInterval = 0.2f;
+	private float damageInterval = 0.2f;
+
+    //Default player weapon (Punch)
+    public Weapon DefaultWeapon;
+
+    //Currently active weapon
+    public Weapon ActiveWeapon;
 	 
 	//Called when object is created
 	void Start()
 	{
-		//Get First person capsule and make non-visible
-		MeshRenderer capsule = GetComponentInChildren<MeshRenderer>();
+        //Register controller for weapon expiration events
+        GameManager.Notifications.AddListener(this, "AmmoExpired");
+
+        //Activate default weapon
+        DefaultWeapon.gameObject.SendMessage("Equip", DefaultWeapon.Type);
+
+        //Set active weapon
+	    ActiveWeapon = DefaultWeapon;
+
+        //Get First person capsule and make non-visible
+        MeshRenderer capsule = GetComponentInChildren<MeshRenderer>();
 		capsule.enabled = false;
 
 		//Get Animator
@@ -99,7 +115,7 @@ public class PlayerController : MonoBehaviour
 		showDamage = true;
 
 		//Wait for interval
-		yield return new WaitForSeconds(DamageInterval);
+		yield return new WaitForSeconds(damageInterval);
 		
 		//Hide damage texture
 		showDamage = false;
@@ -133,5 +149,34 @@ public class PlayerController : MonoBehaviour
 		screenRect.x = screenRect.y = 0;
 		screenRect.width = Screen.width;
 		screenRect.height = Screen.height;
+
+	    if (Input.GetKeyDown(KeyCode.Period)) EquipNextWeapon();
 	}
+
+    //Equip next available weapon
+    public void EquipNextWeapon()
+    {
+        //No weapon found yet
+        bool bFoundWeapon = false;
+
+        //Loop until weapon found
+        while (!bFoundWeapon)
+        {
+            //Get next weapon
+            ActiveWeapon = ActiveWeapon.NextWeapon;
+
+            //Activate weapon, if possible
+            ActiveWeapon.gameObject.SendMessage("Equip", ActiveWeapon.Type);
+
+            //Is successfully equipped?
+            bFoundWeapon = ActiveWeapon.IsEquipped;
+        }
+    }
+
+    //Event called when ammo expires
+    public void AmmoExpired(Component sender)
+    {
+        //Ammo expired for this weapon. Equip next
+        EquipNextWeapon();
+    }
 }
