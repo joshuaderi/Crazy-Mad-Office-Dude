@@ -4649,7 +4649,7 @@ MonoBehaviour:
   CashTotal: 1400
   RespawnTime: 2
   health: 100
-  DefaultWeapon: {fileID: 0}
+  DefaultWeapon: {fileID: 379642599}
   ActiveWeapon: {fileID: 0}
 --- !u!1 &743845650
 GameObject:
@@ -10537,7 +10537,7 @@ MonoBehaviour:
   CashTotal: 1400
   RespawnTime: 2
   health: 100
-  DefaultWeapon: {fileID: 0}
+  DefaultWeapon: {fileID: 379642599}
   ActiveWeapon: {fileID: 0}
 --- !u!1001 &1682458847
 Prefab:
