@@ -20,11 +20,11 @@ public class Enemy_Drone : Enemy
 	//Default Sprite (neutral state)
 	public SpriteRenderer DefaultSprite = null;
 
-	//------------------------------------------------
+    //------------------------------------------------
 	protected override void Start()
 	{
-		//Called super start method
-		base.Start();
+        //Called super start method
+        base.Start();
 
 		//Find sound object in scene
 		GameObject SoundsObject = GameObject.FindGameObjectWithTag("sounds");
@@ -42,8 +42,8 @@ public class Enemy_Drone : Enemy
 		//Reduce health
 		Health -= Damage;
 
-		//Play damage animation
-		gameObject.SendMessage("PlayColorAnimation",0,SendMessageOptions.DontRequireReceiver);
+        ////Play damage animation
+        pingPongSpriteColor.PlayColorAnimation();
 
 		//Check if dead
 		if(Health <= 0)

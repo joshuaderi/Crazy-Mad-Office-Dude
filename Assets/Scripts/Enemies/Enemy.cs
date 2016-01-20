@@ -53,13 +53,16 @@ public class Enemy : MonoBehaviour
 	
 	//Current state of enemy - default is patrol
 	public ENEMY_STATE ActiveState = ENEMY_STATE.PATROL;
-	
-	//------------------------------------------------
+    protected PingPongSpriteColor pingPongSpriteColor;
+
+    //------------------------------------------------
 	//Called on object start
 	protected virtual void Start()
 	{
-		//Get NavAgent Component
-		Agent = GetComponent<NavMeshAgent>();
+        pingPongSpriteColor = GetComponent<PingPongSpriteColor>();
+
+        //Get NavAgent Component
+        Agent = GetComponent<NavMeshAgent>();
 		
 		//Get Player Controller Component
 		GameObject PlayerObject = GameObject.Find("Player");
