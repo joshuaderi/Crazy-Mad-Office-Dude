@@ -54,6 +54,8 @@ public class Enemy : MonoBehaviour
 	//Current state of enemy - default is patrol
 	public ENEMY_STATE ActiveState = ENEMY_STATE.PATROL;
     protected PingPongSpriteColor pingPongSpriteColor;
+    public SpriteAnimator PatrolAnimator;
+    public SpriteAnimator AttackAnimator;
 
     //------------------------------------------------
 	//Called on object start
@@ -124,7 +126,7 @@ public class Enemy : MonoBehaviour
 			
 			//Get nearest valid position
 			NavMeshHit hit;
-			NavMesh.SamplePosition(randomPosition, out hit, PatrolDistance, 1);
+			bool nearestPointFound = NavMesh.SamplePosition(randomPosition, out hit, PatrolDistance, 1);
 			
 			//Set destination
 			Agent.SetDestination(hit.position);
@@ -139,13 +141,14 @@ public class Enemy : MonoBehaviour
 			float ElapsedTime = 0;
 			
 			//Wait until enemy reaches destination or times-out, and then get new position
-			while(Vector3.Distance(ThisTransform.position, hit.position) > ArrivalDistance && ElapsedTime < TimeOut)
+			while(Vector3.Distance(ThisTransform.position, hit.position) > ArrivalDistance &&
+                ElapsedTime < TimeOut)
 			{
 				//Update ElapsedTime
 				ElapsedTime += Time.deltaTime;
 				
 				//Check if should enter chase state
-				if(Vector3.Distance(ThisTransform.position, PlayerTransform.position) < ChaseDistance)
+				if(PlayerDistance < ChaseDistance)
 				{
 					//Exit patrol and enter chase state
 					ChangeState(ENEMY_STATE.CHASE);
@@ -169,21 +172,26 @@ public class Enemy : MonoBehaviour
 		{
 			//Set destination to player
 			Agent.SetDestination(PlayerTransform.position);
-			
-			//Check distances and state exit conditions
-			float DistanceFromPlayer = Vector3.Distance(ThisTransform.position, PlayerTransform.position);
-			
-			//If within attack range, then change to attack state
-			if(DistanceFromPlayer < AttackDistance) {ChangeState(ENEMY_STATE.ATTACK); yield break;}
+
+            //Check distances and state exit conditions
+
+            //If within attack range, then change to attack state
+            if (PlayerDistance < AttackDistance) {ChangeState(ENEMY_STATE.ATTACK); yield break;}
 			
 			//If outside chase range, then revert to patrol state
-			if(DistanceFromPlayer > ChaseDistance) {ChangeState(ENEMY_STATE.PATROL); yield break;}
+			if(PlayerDistance > ChaseDistance) {ChangeState(ENEMY_STATE.PATROL); yield break;}
 			
 			//Wait until next frame
 			yield return null;
 		}
 	}
-	//------------------------------------------------
+
+    private float PlayerDistance
+    {
+        get { return Vector3.Distance(ThisTransform.position, PlayerTransform.position); }
+    }
+
+    //------------------------------------------------
 	//AI Function to handle attack behaviour for enemy
 	//Can exit this state and enter either patrol or chase
 	IEnumerator AI_Attack()
@@ -199,15 +207,14 @@ public class Enemy : MonoBehaviour
 		{
 			//Update elapsed time
 			ElapsedTime += Time.deltaTime;
-			
-			//Check distances and state exit conditions
-			float DistanceFromPlayer = Vector3.Distance(ThisTransform.position, PlayerTransform.position);
-			
-			//If outside chase range, then revert to patrol state
-			if(DistanceFromPlayer > ChaseDistance) {ChangeState(ENEMY_STATE.PATROL); yield break;}
+
+            //Check distances and state exit conditions
+
+            //If outside chase range, then revert to patrol state
+            if (PlayerDistance > ChaseDistance) {ChangeState(ENEMY_STATE.PATROL); yield break;}
 			
 			//If within attack range, then change to attack state
-			if(DistanceFromPlayer > AttackDistance) {ChangeState(ENEMY_STATE.CHASE); yield break;}
+			if(PlayerDistance > AttackDistance) {ChangeState(ENEMY_STATE.CHASE); yield break;}
 			
 			//Make strike
 			if(ElapsedTime >= RecoveryDelay)

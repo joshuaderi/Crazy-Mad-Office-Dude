@@ -19,8 +19,6 @@ public class Enemy_Drone : Enemy
 
 	//Default Sprite (neutral state)
 	public SpriteRenderer DefaultSprite = null;
-    public SpriteAnimator PatrolAnimator;
-    public SpriteAnimator AttackAnimator;
 
     //------------------------------------------------
 	protected override void Start()
