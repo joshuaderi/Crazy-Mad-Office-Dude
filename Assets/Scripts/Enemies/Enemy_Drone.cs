@@ -43,7 +43,7 @@ public class Enemy_Drone : Enemy
 		Health -= Damage;
 
         ////Play damage animation
-        pingPongSpriteColor.PlayColorAnimation();
+        PingPongSpriteColor.PlayColorAnimation();
 
 		//Check if dead
 		if(Health <= 0)
@@ -66,18 +66,22 @@ public class Enemy_Drone : Enemy
 	public void Patrol()
 	{
 		//Hide default and attack sprites
-		foreach(SpriteRenderer SR in AttackSprites)
-			SR.enabled=false;
+		foreach(SpriteRenderer spriteRenderer in AttackSprites) spriteRenderer.enabled=false;
 
 		//Hide default sprite
 		DefaultSprite.enabled = false;
-
-	    //Entered patrol state
-        PatrolAnimator.StopSpriteAnimation(); 
-		AttackAnimator.StopSpriteAnimation();
-	    StartCoroutine(PatrolAnimator.PlaySpriteAnimation());
+        
+	    StartAnimator(PatrolAnimator);
 	}
-	//------------------------------------------------
+
+    private void StartAnimator(SpriteAnimator nextStateAnimator)
+    {
+        PatrolAnimator.StopSpriteAnimation();
+        AttackAnimator.StopSpriteAnimation();
+        StartCoroutine(nextStateAnimator.PlaySpriteAnimation());
+    }
+
+    //------------------------------------------------
 	//Handle Chase State
 	public void Chase()
 	{
@@ -89,23 +93,19 @@ public class Enemy_Drone : Enemy
 	public void Attack()
 	{
 		//Hide default and walk sprites
-		foreach(SpriteRenderer SR in WalkSprites)
-			SR.enabled=false;
+		foreach(SpriteRenderer spriteRenderer in WalkSprites) spriteRenderer.enabled=false;
 		
 		//Hide default sprite
 		DefaultSprite.enabled = false;
 
-		//Entered attack state
-		PatrolAnimator.StopSpriteAnimation();
-		AttackAnimator.StopSpriteAnimation();
-	    StartCoroutine(AttackAnimator.PlaySpriteAnimation());
+        StartAnimator(AttackAnimator);
 	}
 	//------------------------------------------------
 	//Strike - called each time the enemy makes a strike against the player (deal damage)
 	public void Strike()
 	{
 		//Damage player
-		PC.gameObject.SendMessage("ApplyDamage", AttackDamage, SendMessageOptions.DontRequireReceiver);
+		PlayerController.gameObject.SendMessage("ApplyDamage", AttackDamage, SendMessageOptions.DontRequireReceiver);
 	}
 	//------------------------------------------------
 }
