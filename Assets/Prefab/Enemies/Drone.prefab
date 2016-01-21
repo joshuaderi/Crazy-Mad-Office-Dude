@@ -303,7 +303,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
-  EnemyID: 0
   Health: 100
   AttackDamage: 10
   RecoveryDelay: 1
@@ -311,12 +310,12 @@ MonoBehaviour:
   ChaseDistance: 10
   AttackDistance: .100000001
   ActiveState: 0
+  PatrolAnimator: {fileID: 11479872}
+  AttackAnimator: {fileID: 11479870}
   DestroyAudio: {fileID: 0}
   WalkSprites: []
   AttackSprites: []
   DefaultSprite: {fileID: 21285608}
-  PatrolAnimator: {fileID: 11479872}
-  AttackAnimator: {fileID: 11479870}
 --- !u!114 &11479870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -373,16 +372,16 @@ NavMeshAgent:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185604}
   m_Enabled: 1
-  m_Radius: 9.99999975e-06
-  m_Speed: 3.5
+  m_Radius: .699999988
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 9.99999975e-06
+  m_Height: 2.29999995
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
