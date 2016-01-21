@@ -19,6 +19,8 @@ public class Enemy_Drone : Enemy
 
 	//Default Sprite (neutral state)
 	public SpriteRenderer DefaultSprite = null;
+    public SpriteAnimator PatrolAnimator;
+    public SpriteAnimator AttackAnimator;
 
     //------------------------------------------------
 	protected override void Start()
@@ -72,10 +74,10 @@ public class Enemy_Drone : Enemy
 		//Hide default sprite
 		DefaultSprite.enabled = false;
 
-		//Entered patrol state
-		SendMessage ("StopSpriteAnimation", ((int)ENEMY_STATE.PATROL), SendMessageOptions.DontRequireReceiver);
-		SendMessage ("StopSpriteAnimation", ((int)ENEMY_STATE.ATTACK), SendMessageOptions.DontRequireReceiver);
-		SendMessage("PlaySpriteAnimation", ((int)ENEMY_STATE.PATROL), SendMessageOptions.DontRequireReceiver);
+	    //Entered patrol state
+        PatrolAnimator.StopSpriteAnimation(); 
+		AttackAnimator.StopSpriteAnimation();
+	    StartCoroutine(PatrolAnimator.PlaySpriteAnimation());
 	}
 	//------------------------------------------------
 	//Handle Chase State
@@ -96,9 +98,9 @@ public class Enemy_Drone : Enemy
 		DefaultSprite.enabled = false;
 
 		//Entered attack state
-		SendMessage ("StopSpriteAnimation", ((int)ENEMY_STATE.PATROL), SendMessageOptions.DontRequireReceiver);
-		SendMessage ("StopSpriteAnimation", ((int)ENEMY_STATE.ATTACK), SendMessageOptions.DontRequireReceiver);
-		SendMessage("PlaySpriteAnimation", ((int)ENEMY_STATE.ATTACK), SendMessageOptions.DontRequireReceiver);
+		PatrolAnimator.StopSpriteAnimation();
+		AttackAnimator.StopSpriteAnimation();
+	    StartCoroutine(AttackAnimator.PlaySpriteAnimation());
 	}
 	//------------------------------------------------
 	//Strike - called each time the enemy makes a strike against the player (deal damage)

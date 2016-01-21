@@ -63,10 +63,9 @@ public class Enemy : MonoBehaviour
 
         //Get NavAgent Component
         Agent = GetComponent<NavMeshAgent>();
-		
-		//Get Player Controller Component
-		GameObject PlayerObject = GameObject.Find("Player");
-		PC = PlayerObject.GetComponentInChildren<PlayerController>();
+
+        //Get Player Controller Component
+        PC = GameObject.Find("Player").GetComponentInChildren<PlayerController>();
 		
 		//Get Player Transform
 		PlayerTransform = PC.transform;
