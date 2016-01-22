@@ -306,9 +306,9 @@ MonoBehaviour:
   Health: 100
   AttackDamage: 10
   RecoveryDelay: 1
-  PatrolDistance: 10
+  PatrolDistance: 30
   ChaseDistance: 10
-  AttackDistance: .100000001
+  AttackDistance: 2
   ActiveState: 0
   PatrolAnimator: {fileID: 11479872}
   AttackAnimator: {fileID: 11479870}
