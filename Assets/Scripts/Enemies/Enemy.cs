@@ -1,56 +1,9 @@
-﻿//Sets up FSM for enemy AI
-//------------------------------------------------
-
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 //------------------------------------------------
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    //Enemy types
-    public enum EnemyType
-    {
-        Drone = 0,
-        ToughGuy = 1,
-        Boss = 2
-    }
-
-    //Type of this enemy
-    public EnemyType Type = EnemyType.Drone;
-    
-    //Current health of this enemy
-    public int Health = 100;
-
-    //Attack Damage - amount of damage this enemy deals to player when attacking
-    public int AttackDamage = 10;
-
-    //Recovery delay in seconds after launching an attack
-    public float RecoveryDelay = 1.0f;
-
-    //Enemy cached transform
-    protected Transform ThisTransform;
-
-    //------------------------------------------------
-    //AI Properties
-
-    //Reference to NavMesh Agent component
-    protected NavMeshAgent Agent;
-
-    //Reference to active PlayerController component for player
-    protected PlayerController PlayerController;
-
-    //Reference to Player Transform
-    protected Transform PlayerTransform;
-
-    //Total distance in Unity Units from current position that agent can wander when patrolling
-    public float PatrolDistance = 10.0f;
-
-    //Total distance enemy must be from player, in Unity Units, before chasing them (entering chase state)
-    public float ChaseDistance = 10.0f;
-
-    //Total distance enemy must be from player before attacking them
-    public float AttackDistance = 0.1f;
-
     //Enum of states for FSM
     public enum EnemyState
     {
@@ -59,16 +12,72 @@ public class Enemy : MonoBehaviour
         Attack = 2
     }
 
+    //Enemy types
+    public enum EnemyType
+    {
+        Drone = 0,
+        ToughGuy = 1,
+        Boss = 2
+    }
+
     //Current state of enemy - default is patrol
     public EnemyState ActiveState = EnemyState.Patrol;
-    protected PingPongSpriteColor PingPongSpriteColor;
-    public SpriteAnimator PatrolAnimator;
+
+    //------------------------------------------------
+    //AI Properties
+
+    //Reference to NavMesh Agent component
+    protected NavMeshAgent Agent;
     public SpriteAnimator AttackAnimator;
+
+    //Attack Damage - amount of damage this enemy deals to player when attacking
+    public int AttackDamage = 10;
+
+    //Total distance enemy must be from player before attacking them
+    public float AttackDistance = 0.1f;
+
+    //Total distance enemy must be from player, in Unity Units, before chasing them (entering chase state)
+    public float ChaseDistance = 10.0f;
+    //Sound to play on destroy
+    public AudioClip DestroyAudio = null;
+
+    //Current health of this enemy
+    public int Health = 100;
+    public SpriteAnimator PatrolAnimator;
+
+    //Total distance in Unity Units from current position that agent can wander when patrolling
+    public float PatrolDistance = 10.0f;
+    protected PingPongSpriteColor PingPongSpriteColor;
+
+    //Reference to active PlayerController component for player
+    protected PlayerController PlayerController;
+
+    //Reference to Player Transform
+    protected Transform PlayerTransform;
+
+    //Recovery delay in seconds after launching an attack
+    public float RecoveryDelay = 1.0f;
+
+    //Audio Source for sound playback
+    protected AudioSource SFX;
+
+    //Enemy cached transform
+    protected Transform ThisTransform;
+
+    //Type of this enemy
+    public abstract EnemyType Type { get; }
+
+    private float PlayerDistance
+    {
+        get { return Vector3.Distance(ThisTransform.position, PlayerTransform.position); }
+    }
 
     //------------------------------------------------
     //Called on object start
     protected virtual void Start()
     {
+        InitAudio();
+
         PingPongSpriteColor = GetComponent<PingPongSpriteColor>();
 
         //Get NavAgent Component
@@ -85,6 +94,15 @@ public class Enemy : MonoBehaviour
 
         //Set default state
         ChangeState(ActiveState);
+    }
+
+    private void InitAudio()
+    {
+        //Find sound object in scene
+        GameObject SoundsObject = GameObject.FindGameObjectWithTag("sounds");
+
+        //Get audio source component for sfx
+        if (SoundsObject != null) SFX = SoundsObject.GetComponent<AudioSource>();
     }
 
     //------------------------------------------------
@@ -205,11 +223,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private float PlayerDistance
-    {
-        get { return Vector3.Distance(ThisTransform.position, PlayerTransform.position); }
-    }
-
     //------------------------------------------------
     //AI Function to handle attack behaviour for enemy
     //Can exit this state and enter either patrol or chase
@@ -262,6 +275,34 @@ public class Enemy : MonoBehaviour
         AttackAnimator.StopSpriteAnimation();
         StartCoroutine(nextStateAnimator.PlaySpriteAnimation());
     }
-}
 
-//------------------------------------------------
+    //Entered Attack State
+    public void Attack()
+    {
+        PatrolAnimator.HideAllSprites();
+
+        StartAnimator(AttackAnimator);
+    }
+
+    //Handle patrol state
+    public void Patrol()
+    {
+        AttackAnimator.HideAllSprites();
+
+        StartAnimator(PatrolAnimator);
+    }
+
+    //Handle Chase State
+    public void Chase()
+    {
+        //Same animations as patrol
+        Patrol();
+    }
+
+    //Strike - called each time the enemy makes a strike against the player (deal damage)
+    public void Strike()
+    {
+        //Damage player
+        PlayerController.gameObject.SendMessage("ApplyDamage", AttackDamage, SendMessageOptions.DontRequireReceiver);
+    }
+}
