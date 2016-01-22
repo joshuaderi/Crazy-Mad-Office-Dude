@@ -1,21 +1,22 @@
-﻿//------------------------------------------------
+﻿//-----------------------------------------------
 using UnityEngine;
 using System.Collections;
-//------------------------------------------------
-public class Enemy_Drone : Enemy
+//-----------------------------------------------
+public class Enemy_ToughGuy : Enemy 
 {
-	//------------------------------------------------
+	//-----------------------------------------------
 	//Sound to play on destroy
 	public AudioClip DestroyAudio = null;
 	
 	//Audio Source for sound playback
 	private AudioSource SFX = null;
-    //------------------------------------------------
+	
+	//------------------------------------------------
 	protected override void Start()
 	{
-        //Called super start method
-        base.Start();
-
+		//Called super start method
+		base.Start();
+		
 		//Find sound object in scene
 		GameObject SoundsObject = GameObject.FindGameObjectWithTag("sounds");
 		
@@ -31,24 +32,21 @@ public class Enemy_Drone : Enemy
 	{
 		//Reduce health
 		Health -= Damage;
-
-        ////Play damage animation
-        PingPongSpriteColor.PlayColorAnimation();
-
+		
+		//Play damage animation
+		gameObject.SendMessage("PlayColorAnimation",0,SendMessageOptions.DontRequireReceiver);
+		
 		//Check if dead
 		if(Health <= 0)
 		{
 			//Send enemy destroyed notification
 			GameManager.Notifications.PostNotification(this, "EnemyDestroyed");
-
+			
 			//Play collection sound, if audio source is available
 			if(SFX){SFX.PlayOneShot(DestroyAudio, 1.0f);}
-
+			
 			//Remove object from scene
 			DestroyImmediate(gameObject);
-
-			//Clean up old listeners
-			GameManager.Notifications.RemoveRedundancies();
 		}
 	}
 	//------------------------------------------------
@@ -56,11 +54,10 @@ public class Enemy_Drone : Enemy
 	public void Patrol()
 	{
         AttackAnimator.HideAllSprites();
-
-        StartAnimator(PatrolAnimator);
-    }
-
-    //------------------------------------------------
+		
+	    StartAnimator(PatrolAnimator);
+	}
+	//------------------------------------------------
 	//Handle Chase State
 	public void Chase()
 	{
@@ -72,9 +69,9 @@ public class Enemy_Drone : Enemy
 	public void Attack()
 	{
         PatrolAnimator.HideAllSprites();
-
-        StartAnimator(AttackAnimator);
-    }
+		
+	    StartAnimator(AttackAnimator);
+	}
 	//------------------------------------------------
 	//Strike - called each time the enemy makes a strike against the player (deal damage)
 	public void Strike()
@@ -84,4 +81,3 @@ public class Enemy_Drone : Enemy
 	}
 	//------------------------------------------------
 }
-//------------------------------------------------

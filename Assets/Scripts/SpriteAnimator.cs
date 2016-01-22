@@ -5,7 +5,7 @@ using System.Collections;
 
 public class SpriteAnimator : MonoBehaviour
 {
-    [SerializeField] private bool playOnce = true;
+    [SerializeField] private bool playOnce = false;
 
     //Frames per second to play for this animation
     public int FPS = 5;

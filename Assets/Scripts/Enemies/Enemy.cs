@@ -255,6 +255,13 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
     }
+
+    protected void StartAnimator(SpriteAnimator nextStateAnimator)
+    {
+        PatrolAnimator.StopSpriteAnimation();
+        AttackAnimator.StopSpriteAnimation();
+        StartCoroutine(nextStateAnimator.PlaySpriteAnimation());
+    }
 }
 
 //------------------------------------------------
