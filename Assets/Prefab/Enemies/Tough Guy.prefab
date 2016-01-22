@@ -155,7 +155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10.8000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 408472}
@@ -350,17 +350,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcfbb0b02c586dd44b0be5db6986c1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 1
-  Health: 100
-  AttackDamage: 15
-  RecoveryDelay: 1
-  PatrolDistance: 10
-  ChaseDistance: 10
-  AttackDistance: 4
   ActiveState: 0
   PatrolAnimator: {fileID: 11408478}
   AttackAnimator: {fileID: 11408480}
+  AttackDamage: 15
+  PatrolDistance: 10
+  ChaseDistance: 10
+  AttackDistance: 4
   DestroyAudio: {fileID: 8300000, guid: 3053703ba29cf3240a851298319e52fa, type: 3}
+  Health: 100
+  RecoveryDelay: 1
 --- !u!195 &19508486
 NavMeshAgent:
   m_ObjectHideFlags: 1

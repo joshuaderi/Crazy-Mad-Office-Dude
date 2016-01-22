@@ -28,25 +28,26 @@ public abstract class Enemy : MonoBehaviour
 
     //Reference to NavMesh Agent component
     protected NavMeshAgent Agent;
+
+    public SpriteAnimator PatrolAnimator;
     public SpriteAnimator AttackAnimator;
 
     //Attack Damage - amount of damage this enemy deals to player when attacking
     public int AttackDamage = 10;
 
+    //Total distance in Unity Units from current position that agent can wander when patrolling
+    public float PatrolDistance = 10.0f;
+    //Total distance enemy must be from player, in Unity Units, before chasing them (entering chase state)
+    public float ChaseDistance = 10.0f;
     //Total distance enemy must be from player before attacking them
     public float AttackDistance = 0.1f;
 
-    //Total distance enemy must be from player, in Unity Units, before chasing them (entering chase state)
-    public float ChaseDistance = 10.0f;
     //Sound to play on destroy
     public AudioClip DestroyAudio = null;
 
     //Current health of this enemy
     public int Health = 100;
-    public SpriteAnimator PatrolAnimator;
 
-    //Total distance in Unity Units from current position that agent can wander when patrolling
-    public float PatrolDistance = 10.0f;
     protected PingPongSpriteColor PingPongSpriteColor;
 
     //Reference to active PlayerController component for player
