@@ -45,14 +45,21 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        //Register controller for weapon expiration events
-        GameManager.Notifications.AddListener(this, "AmmoExpired");
-
         //Activate default weapon
         DefaultWeapon.gameObject.SendMessage("Equip", DefaultWeapon.Type);
 
         //Set active weapon
         ActiveWeapon = DefaultWeapon;
+
+        //Register controller for weapon expiration events
+        GameManager.Notifications.AddListener(this, "AmmoExpired");
+
+        //Register controller for input change events
+        GameManager.Notifications.AddListener(this, "InputChanged");
+
+        //Add listeners for saving games
+        GameManager.Notifications.AddListener(this, "SaveGamePrepare");
+        GameManager.Notifications.AddListener(this, "LoadGameComplete");
 
         //Get First person capsule and make non-visible
         MeshRenderer capsule = GetComponentInChildren<MeshRenderer>();
@@ -109,8 +116,7 @@ public class PlayerController : MonoBehaviour
     public void SaveGamePrepare(Component Sender)
     {
         //Get Player Data Object
-        LoadSaveManager.GameStateData.DataPlayer PlayerData = GameManager.StateManager.
-       GameState.Player;
+        LoadSaveManager.GameStateData.DataPlayer PlayerData = GameManager.StateManager.GameState.Player;
         //Fill in player data for save game
         PlayerData.CollectedCash = Cash;
         PlayerData.CollectedGun = CollectWeapon.Collected;

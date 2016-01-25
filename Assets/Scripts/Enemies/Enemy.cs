@@ -80,6 +80,9 @@ public abstract class Enemy : MonoBehaviour
     //Called on object start
     protected virtual void Start()
     {
+        GameManager.Notifications.AddListener(this, "SaveGamePrepare");
+        GameManager.Notifications.AddListener(this, "LoadGameComplete"); 
+
         InitAudio();
 
         PingPongSpriteColor = GetComponent<PingPongSpriteColor>();

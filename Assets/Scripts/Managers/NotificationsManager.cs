@@ -36,6 +36,7 @@ public class NotificationsManager : MonoBehaviour
         //Else post notification to all matching listeners
         foreach (Component listener in listeners[notificationName])
         {
+            if (null == listener) continue;
             listener.SendMessage(notificationName, sender, SendMessageOptions.DontRequireReceiver);
         }
     }
