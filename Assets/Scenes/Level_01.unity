@@ -5343,6 +5343,7 @@ MonoBehaviour:
   health: 100
   DefaultWeapon: {fileID: 379642599}
   ActiveWeapon: {fileID: 0}
+  CollectWeapon: {fileID: 233690653}
 --- !u!1 &743845650
 GameObject:
   m_ObjectHideFlags: 0
@@ -12646,6 +12647,7 @@ MonoBehaviour:
   health: 100
   DefaultWeapon: {fileID: 379642599}
   ActiveWeapon: {fileID: 0}
+  CollectWeapon: {fileID: 233690653}
 --- !u!1001 &1682458847
 Prefab:
   m_ObjectHideFlags: 0
