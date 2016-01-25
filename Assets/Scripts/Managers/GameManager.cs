@@ -6,6 +6,7 @@ using UnityEngine;
 
 //Game Manager requires other manager components
 [RequireComponent(typeof(NotificationsManager))] //Component for sending and receiving notifications
+[RequireComponent(typeof(LoadSaveManager))]
 
 public class GameManager : MonoBehaviour
 {
@@ -23,7 +24,6 @@ public class GameManager : MonoBehaviour
             Notifications.PostNotification(this, "InputChanged");
         }
     }
-
     //Can game accept user input?
     private bool bInputAllowed = true;
 
@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
         //create game manager object if required
         get { return instance ?? (instance = new GameObject("GameManager").AddComponent<GameManager>()); }
     }
-
     //Internal reference to single active instance of object - for singleton behaviour
     private static GameManager instance;
 
@@ -42,9 +41,19 @@ public class GameManager : MonoBehaviour
     {
         get { return notifications ?? (notifications = instance.GetComponent<NotificationsManager>()); }
     }
-
     //Internal reference to notifications object
     private static NotificationsManager notifications;
+
+    //C# property to retrieve save/load manager
+    public static LoadSaveManager StateManager
+    {
+        get { return stateManager ?? (stateManager = instance.GetComponent<LoadSaveManager>()); }
+    }
+    //Internal reference to Saveload Game Manager
+    private static LoadSaveManager stateManager;
+
+    //Should load from save game state on level load, or just restart level from defaults
+    private static bool shouldLoad = false;
 
     //Called before Start on object creation
     void Awake()
@@ -67,6 +76,15 @@ public class GameManager : MonoBehaviour
         //Add listeners for main menu
         Notifications.AddListener(this, "RestartGame");
         Notifications.AddListener(this, "ExitGame");
+        Notifications.AddListener(this, "SaveGame");
+        Notifications.AddListener(this, "LoadGame");
+
+        //If we need to load level
+        if (shouldLoad)
+        {
+            StateManager.Load(Application.persistentDataPath + "/SaveGame.xml");
+            shouldLoad = false; //Reset load flag
+        }
     }
 
     //Function called when all cash is collected in level
@@ -85,5 +103,22 @@ public class GameManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    //Save Game
+    public void SaveGame()
+    {
+        //Call save game functionality
+        StateManager.Save(Application.persistentDataPath + "/SaveGame.xml");
+    }
+    
+    //Load Game
+    public void LoadGame()
+    {
+        //Set load on restart
+        shouldLoad = true;
+
+        //Restart Level
+        RestartGame();
     }
 }
