@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //------------------------------------------------
@@ -64,6 +66,7 @@ public abstract class Enemy : MonoBehaviour
 
     //Enemy cached transform
     protected Transform ThisTransform;
+    public int EnemyId;
 
     //Type of this enemy
     public abstract EnemyType Type { get; }
@@ -97,6 +100,60 @@ public abstract class Enemy : MonoBehaviour
         ChangeState(ActiveState);
     }
 
+    //Function called when saving game
+    public void SaveGamePrepare(Component Sender)
+    {
+        //Create enemy data for this enemy
+        LoadSaveManager.GameStateData.DataEnemy ThisEnemy = new LoadSaveManager.GameStateData.DataEnemy();
+
+        //Fill in data for current enemy
+        ThisEnemy.EnemyID = EnemyId;
+        ThisEnemy.Health = Health;
+        ThisEnemy.PosRotScale.X = ThisTransform.position.x;
+        ThisEnemy.PosRotScale.Y = ThisTransform.position.y;
+        ThisEnemy.PosRotScale.Z = ThisTransform.position.z;
+        ThisEnemy.PosRotScale.RotX = ThisTransform.localEulerAngles.x;
+        ThisEnemy.PosRotScale.RotY = ThisTransform.localEulerAngles.y;
+        ThisEnemy.PosRotScale.RotZ = ThisTransform.localEulerAngles.z;
+        ThisEnemy.PosRotScale.ScaleX = ThisTransform.localScale.x;
+        ThisEnemy.PosRotScale.ScaleY = ThisTransform.localScale.y;
+        ThisEnemy.PosRotScale.ScaleZ = ThisTransform.localScale.z;
+
+
+        //Add enemy to Game State
+        GameManager.StateManager.GameState.Enemies.Add(ThisEnemy);
+    }
+    //------------------------------------------------
+    //Function called when loading is complete
+    public void LoadGameComplete(Component Sender)
+    {
+        //Cycle through enemies and find matching ID
+        List<LoadSaveManager.GameStateData.DataEnemy> enemies = GameManager.StateManager.GameState.Enemies;
+
+        //Reference to this enemy
+        LoadSaveManager.GameStateData.DataEnemy thisEnemy = enemies
+            .FirstOrDefault(enemy => { return enemy.EnemyID == EnemyId; });
+
+        //If we reach here and no enemy is found, then it was destroyed when saved.So destroy now
+        if (thisEnemy == null)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        //Else load enemy data
+        EnemyId = thisEnemy.EnemyID;
+        Health = thisEnemy.Health;
+
+        //Set position
+        Agent.Warp(new Vector3(thisEnemy.PosRotScale.X, thisEnemy.PosRotScale.Y, thisEnemy.PosRotScale.Z));
+
+        //Set rotation
+        ThisTransform.localRotation = Quaternion.Euler(thisEnemy.PosRotScale.RotX, thisEnemy.PosRotScale.RotY, thisEnemy.PosRotScale.RotZ);
+
+        //Set scale
+        ThisTransform.localScale = new Vector3(thisEnemy.PosRotScale.ScaleX, thisEnemy.PosRotScale.ScaleY, thisEnemy.PosRotScale.ScaleZ);
+    }
     private void InitAudio()
     {
         //Find sound object in scene
