@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
     {
         //Add cash collected listener to listen for win condition
         Notifications.AddListener(this, "CashCollected");
+
+        //Add listeners for main menu
+        Notifications.AddListener(this, "RestartGame");
+        Notifications.AddListener(this, "ExitGame");
     }
 
     //Function called when all cash is collected in level
