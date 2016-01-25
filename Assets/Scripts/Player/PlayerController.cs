@@ -129,6 +129,8 @@ public class PlayerController : MonoBehaviour
 	//Function called when player dies
 	public IEnumerator Die()
 	{
+        //TODO: player can move after he dies
+
 		//Disable input
 		GameManager.Instance.InputAllowed = false;
 		

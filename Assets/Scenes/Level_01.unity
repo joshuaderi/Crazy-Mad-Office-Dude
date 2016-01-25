@@ -6679,7 +6679,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1163286809}
+    m_TransformParent: {fileID: 1815535065}
     m_Modifications:
     - target: {fileID: 422092, guid: a4574f8017ad3e742be5e0677b779fa5, type: 2}
       propertyPath: m_LocalPosition.x
@@ -6711,7 +6711,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 422092, guid: a4574f8017ad3e742be5e0677b779fa5, type: 2}
       propertyPath: m_RootOrder
-      value: 31
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11422092, guid: a4574f8017ad3e742be5e0677b779fa5, type: 2}
       propertyPath: CollectWeapon
@@ -7627,6 +7627,7 @@ Transform:
   - {fileID: 870165433}
   - {fileID: 777213238}
   - {fileID: 1544479020}
+  - {fileID: 1815535065}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!1 &1007290564
@@ -8803,8 +8804,6 @@ Transform:
   - {fileID: 19723391}
   - {fileID: 1166449540}
   - {fileID: 454822449}
-  - {fileID: 1283611874}
-  - {fileID: 1197037991}
   m_Father: {fileID: 1006266783}
   m_RootOrder: 0
 --- !u!1 &1164815865
@@ -9345,8 +9344,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.68799996, z: -5.71000004}
   m_LocalScale: {x: 1.99607635, y: 1.99607801, z: 1.99607801}
   m_Children: []
-  m_Father: {fileID: 1163286809}
-  m_RootOrder: 31
+  m_Father: {fileID: 1815535065}
+  m_RootOrder: 1
 --- !u!1 &1219015987
 GameObject:
   m_ObjectHideFlags: 0
@@ -9615,8 +9614,8 @@ Transform:
   - {fileID: 1296069720}
   - {fileID: 364098288}
   - {fileID: 833066353}
-  m_Father: {fileID: 1163286809}
-  m_RootOrder: 30
+  m_Father: {fileID: 1815535065}
+  m_RootOrder: 0
 --- !u!1001 &1294299174
 Prefab:
   m_ObjectHideFlags: 0
@@ -13333,6 +13332,35 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1971987900}
   m_GameObject: {fileID: 1814249787}
   m_Mesh: {fileID: 4300000, guid: d295d9edf21a64e48931280803719c89, type: 3}
+--- !u!1 &1815535064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1815535065}
+  m_Layer: 0
+  m_Name: PowerUps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1815535065
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1815535064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1283611874}
+  - {fileID: 1197037991}
+  m_Father: {fileID: 1006266783}
+  m_RootOrder: 7
 --- !u!1 &1822751537
 GameObject:
   m_ObjectHideFlags: 0
