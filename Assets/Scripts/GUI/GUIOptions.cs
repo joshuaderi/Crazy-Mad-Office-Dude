@@ -9,7 +9,7 @@ public class GUIOptions : MonoBehaviour
 	private SpriteRenderer SR = null;
 
 	//Collision objects for buttons
-	private BoxCollider[] Colliders = null;
+	private BoxCollider2D[] Colliders = null;
 
 	//--------------------------------------------------------------
 	// Use this for initialization
@@ -19,7 +19,7 @@ public class GUIOptions : MonoBehaviour
 		SR = GetComponent<SpriteRenderer>();
 
 		//Get button colliders
-		Colliders = GetComponentsInChildren<BoxCollider>();
+		Colliders = GetComponentsInChildren<BoxCollider2D>();
 
 		//Add listeners
 		GameManager.Notifications.AddListener(this, "ShowOptions");
@@ -54,7 +54,7 @@ public class GUIOptions : MonoBehaviour
 		SR.enabled = bShow;
 
 		//Enable/Disable button colliders
-		foreach(BoxCollider B in Colliders)
+		foreach(BoxCollider2D B in Colliders)
 			B.enabled = bShow;
 	}
 	//--------------------------------------------------------------
